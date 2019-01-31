@@ -8,21 +8,27 @@ namespace IA_TP1
 {
 	class Program
 	{
+		public static Object _lock = new Object();
+
 		static void Main(string[] args)
 		{
-			Environment e = new Environment();
+			Environment envt = new Environment();
 
+			Thread th_envt = new Thread(envt.Generate);
+			th_envt.Start();
 
-			Thread test = new Thread(new ParameterizedThreadStart(e.Generate));
-			test.Start();
+			TestEnvoi t = new TestEnvoi();
+			Thread tt = new Thread(t.Generate);
+			tt.Start();
+
 			Thread.Sleep(10000);
 
-			e._run = false;
 
-			Thread.Sleep(100);
+			envt.run = false;
+			t.run = false;
 
-			Console.WriteLine("Nb poussière : " + e._counterPoussiere);
-			Console.WriteLine("Nb bijoux : " + e._counterBijoux);
+			Console.WriteLine("Nb poussière : " + envt.counterPoussiere);
+			Console.WriteLine("Nb bijoux : " + envt.counterBijoux);
 
 			Console.ReadKey();
 		}
