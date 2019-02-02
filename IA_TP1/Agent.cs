@@ -66,8 +66,8 @@ namespace IA_TP1
 
         private void observecroyanceironnement()
         {
-            croyance = Environment.grid;
-        }
+			//croyance = Environment.grid;
+		}
 
         private void updateState()
         {

@@ -13,22 +13,21 @@ namespace IA_TP1
 		static void Main(string[] args)
 		{
 			Environment envt = new Environment();
-
-			Thread th_envt = new Thread(envt.Generate);
+			Thread th_envt = new Thread(envt.Run);
 			th_envt.Start();
 
-			TestEnvoi t = new TestEnvoi();
-			Thread tt = new Thread(t.Generate);
-			tt.Start();
+			//TestEnvoi t = new TestEnvoi();
+			//Thread tt = new Thread(t.Generate);
+			//tt.Start();
 
 			Thread.Sleep(10000);
 
 
-			envt.run = false;
-			t.run = false;
+			envt.alive = false;
+			//t.alive = false;
 
-			Console.WriteLine("Nb poussière : " + envt.counterPoussiere);
-			Console.WriteLine("Nb bijoux : " + envt.counterBijoux);
+			Console.WriteLine("Agent pos : (" + envt.agentPosI + "," + envt.agentPosJ + ")");
+			Console.WriteLine("Agent score : " + envt.agentScore);
 
 			Console.ReadKey();
 		}
