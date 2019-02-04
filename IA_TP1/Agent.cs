@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections;
+using System.Collections.Generic;
 
 namespace IA_TP1
 {
@@ -11,30 +11,24 @@ namespace IA_TP1
         static int posJ;
         private int[,] croyance; // L'environnement qu'il peut observer
         private int desir; // gagner des points
-        private Queue intentions;
+        private Queue<Action> intentions; // listes d'actions que l'agent va effectuer
         
         public Agent()
         {
             perf = 0;
             isAlive = true;
-            initcroyance();
-            setPosition(0,0);
+            Capteur.capterEnvironement(this);
+            setPosition(4,4);
+        }
+
+        public void setCroyance(int[,] env)
+        {
+            Capteur.capterEnvironement(this);
         }
 
         public void setPosition(int i, int j) {
             posI = i;
             posJ = j;
-        }
-
-        public void initcroyance() {
-            croyance = new int[10, 10];
-			for (int i = 0; i< 10; i++)
-			{
-				for (int j = 0; j< 10; j++)
-				{
-					croyance[i, j] = 0;
-				}
-}
         }
 
         private void ramasser(int objet)
@@ -43,10 +37,12 @@ namespace IA_TP1
             removeObjectsOnActualPosition();
             
         }
+
         private void removeObjectsOnActualPosition()
         {
             croyance[posI, posJ] = 0;
         }
+
         private void aspirer(int objet)
         {
             perf += Rules.gainAspirer(objet);
@@ -76,7 +72,7 @@ namespace IA_TP1
 
         private void chooseAction()
         {
-           /* functionAgent - But([etat_env, but])
+           /* function AgentBut([etat_env, but])
                 ActionsPossibles = actionDeclanchable(etat_env)
                 for i = 1 to taille(ActionsPossibles){
                                 if capable_atteindre(ActionsPossibles[i], but)
@@ -87,6 +83,7 @@ namespace IA_TP1
 
         private void act()
         {
+            Action currentAction = intentions.Dequeue();
             
         }
 

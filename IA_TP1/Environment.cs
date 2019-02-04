@@ -12,9 +12,9 @@ namespace IA_TP1
 		public int counterPoussiere = 0;
 		public int counterBijoux = 0;
 
-		private int[,] grid;
+		static int[,] grid;
 
-		public static List<string> actions;
+		private static List<string> actions;
 
 		public Environment()
 		{
@@ -30,7 +30,13 @@ namespace IA_TP1
 			actions = new List<string>();
 		}
 
-		public void Generate()
+        public static int[,] getGrid()
+        {
+            return grid;
+        }
+
+
+        public void Generate()
 		{
 			Random r = new Random();
 			while (run)
