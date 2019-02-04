@@ -46,12 +46,6 @@ namespace IA_TP1
 				GeneratePoussiere(r);
 				GenerateBijoux(r);
 
-				// ##### TEST ##### \\
-				Array actions = Enum.GetValues(typeof(Action));
-				Action randAction = (Action)actions.GetValue(r.Next(actions.Length));
-				agentActions.Enqueue(randAction);
-				// ################ \\
-
 				// Traitement des actions de l'agent
 				lock (Program._lock)
 				{

@@ -16,15 +16,15 @@ namespace IA_TP1
 			Thread th_envt = new Thread(envt.Run);
 			th_envt.Start();
 
-			//TestEnvoi t = new TestEnvoi();
-			//Thread tt = new Thread(t.Generate);
-			//tt.Start();
+			TestEnvoi t = new TestEnvoi();
+			Thread tt = new Thread(t.Generate);
+			tt.Start();
 
 			Thread.Sleep(10000);
 
 
 			envt.alive = false;
-			//t.alive = false;
+			t.alive = false;
 
 			Console.WriteLine("Agent pos : (" + envt.agentPosI + "," + envt.agentPosJ + ")");
 			Console.WriteLine("Agent score : " + envt.agentScore);
