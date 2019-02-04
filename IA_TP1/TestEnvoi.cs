@@ -8,51 +8,60 @@ namespace IA_TP1
 {
 	class TestEnvoi
 	{
-		List<string> sequence;
-		public bool run;
+		Queue<Action> sequence;
+		public bool alive;
 
 		public TestEnvoi()
 		{
-			run = true;
-			sequence = new List<string>();
+			alive = true;
+			sequence = new Queue<Action>();
 		}
 
 		public void Generate()
 		{
 			Random r = new Random();
-			while (run)
+			while (alive)
 			{
 				double rand = r.NextDouble();
-				if (rand < 0.25)
+				if (rand < 1 / (double)7)
 				{
 					sequence.Clear();
-					sequence.Add("G");
+					sequence.Enqueue(Action.HAUT);
 				}
-				else if (rand >= 0.25 && rand < 0.5)
+				else if (rand >= 1 / (double)7 && rand < 2 / (double)7)
 				{
 					sequence.Clear();
-					sequence.Add("D");
-					sequence.Add("D");
+					sequence.Enqueue(Action.BAS);
 				}
-				else if (rand >= 0.5 && rand < 0.75)
+				else if (rand >= 2 / (double)7 && rand < 3 / (double)7)
 				{
 					sequence.Clear();
-					sequence.Add("H");
-					sequence.Add("H");
-					sequence.Add("H");
+					sequence.Enqueue(Action.GAUCHE);
+				}
+				else if (rand >= 3 / (double)7 && rand < 4 / (double)7)
+				{
+					sequence.Clear();
+					sequence.Enqueue(Action.DROITE);
+				}
+				else if (rand >= 4 / (double)7 && rand < 5 / (double)7)
+				{
+					sequence.Clear();
+					sequence.Enqueue(Action.ASPIRER);
+				}
+				else if (rand >= 5 / (double)7 && rand < 6 / (double)7)
+				{
+					sequence.Clear();
+					sequence.Enqueue(Action.RAMASSER);
 				}
 				else
 				{
 					sequence.Clear();
-					sequence.Add("B");
-					sequence.Add("B");
-					sequence.Add("B");
-					sequence.Add("B");
+					sequence.Enqueue(Action.ATTENDRE);
 				}
 
-				lock(Program._lock)
+				lock (Program._lock)
 				{
-					Environment.actions = sequence.ToList();
+					Environment.agentActions = sequence;
 				}
 
 
