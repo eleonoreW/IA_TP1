@@ -8,8 +8,8 @@ namespace IA_TP1
 {
     class Capteur
     {
-        public static void capterEnvironement(Agent agent) {
-            agent.setCroyance(Environment.getGrid());
+        public static int[,] capterEnvironement() {
+            return Environment.getGrid();
         }
     }
 }

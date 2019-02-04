@@ -10,22 +10,17 @@ namespace IA_TP1
         static int posI;
         static int posJ;
         private int[,] croyance; // L'environnement qu'il peut observer
-        private int desir; // gagner des points
+        private int desir; // gagner des points : faire une action rentable (score > 0)
         private Queue<Action> intentions; // listes d'actions que l'agent va effectuer
-        
+
         public Agent()
         {
             perf = 0;
             isAlive = true;
-            Capteur.capterEnvironement(this);
+            croyance = Capteur.capterEnvironement();
             setPosition(4,4);
         }
-
-        public void setCroyance(int[,] env)
-        {
-            Capteur.capterEnvironement(this);
-        }
-
+        
         public void setPosition(int i, int j) {
             posI = i;
             posJ = j;
@@ -52,7 +47,7 @@ namespace IA_TP1
         public void cycle() {
             while (isAlive)
             {
-                observecroyanceironnement();
+                observerEnvironnement();
                 updateState();
                 chooseAction();
                 act();
@@ -60,12 +55,12 @@ namespace IA_TP1
 
         }
 
-        private void observecroyanceironnement()
+        private void observerEnvironnement()
         {
-			//croyance = Environment.grid;
-		}
+            croyance = Capteur.capterEnvironement();
+        }
 
-        private void updateState()
+        private void updateState() // 2 scores différents, un pour l'aspi, un pour le manoir
         {
 
         }

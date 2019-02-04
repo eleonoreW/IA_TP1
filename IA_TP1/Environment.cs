@@ -10,12 +10,12 @@ namespace IA_TP1
 	{
 		public bool alive; // Contrôle de l'execution du thread
 
-		private int[,] grid; // Pieces du manoir (10 x 10)
+		static private int[,] grid; // Pieces du manoir (10 x 10)
 
 		public int agentPosI; // Position de l'agent dans la grille horizontalement
 		public int agentPosJ; // Position de l'agent dans la grille verticalement
 		public int agentScore; // Performance réelle de l'agent
-		public static Queue<Action> agentActions; // Séquence d'actions de l'agent
+		public static Queue<Action> agentActions; // Séquence d'actions de l'agent /*Il ne faudrait pas stocker*/
 
 		public Environment()
 		{
@@ -36,7 +36,10 @@ namespace IA_TP1
 			agentActions = new Queue<Action>();
 			agentActions.Enqueue(Action.DROITE);
 		}
-
+        public static int[,] getGrid()
+        {
+            return grid;
+        }
 		public void Run()
 		{
 			Random r = new Random();
