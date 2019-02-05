@@ -7,8 +7,8 @@ namespace IA_TP1
     {
         private int perf;
         private Boolean isAlive;
-        static int posI;
-        static int posJ;
+        public static int posI;
+        public static int posJ;
         private int[,] croyance; // L'environnement qu'il peut observer
         private int desir; // gagner des points : faire une action rentable (score > 0)
         private Queue<Action> intentions; // listes d'actions que l'agent va effectuer
