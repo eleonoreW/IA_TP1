@@ -8,7 +8,12 @@ namespace IA_TP1
 {
     public class Rules
     {
-        public static int gainRamasser(int objet)
+		public static readonly int width = 10;
+		public static readonly int height = 10;
+		public static readonly float poussiereFrequency = 0.1f;
+		public static readonly float bijouxFrequency = 0.1f;
+
+		public static int gainRamasser(int objet)
         {
             if (objet == 1)
                 return -5;

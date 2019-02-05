@@ -8,8 +8,8 @@ namespace IA_TP1
 {
 	class Affichage
 	{
-		public bool alive;
-		private int frequency;
+		public bool alive; // Contrôle de l'execution du thread
+		private readonly int frequency;  // Taux de rafraichissement du thread (en ms)
 
 		public Affichage(int freq)
 		{
@@ -29,9 +29,9 @@ namespace IA_TP1
 
 		private void PrintEnvironment()
 		{
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < Rules.width; i++)
 			{
-				for (int j = 0; j < 10; j++)
+				for (int j = 0; j < Rules.height; j++)
 				{
 					if (i == Agent.posI && j == Agent.posJ)
 						Console.Write("X ");

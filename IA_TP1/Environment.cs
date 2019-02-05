@@ -9,15 +9,15 @@ namespace IA_TP1
 	class Environment
 	{
 		public bool alive; // Contrôle de l'execution du thread
-		private int frequency;
+		private readonly int frequency; // Taux de rafraichissement du thread (en ms)
 		public static int[,] grid; // Pieces du manoir (10 x 10)
 
 		public Environment(int freq)
 		{
-			grid = new int[10, 10];
-			for (int i = 0; i < 10; i++)
+			grid = new int[Rules.width, Rules.height];
+			for (int i = 0; i < Rules.width; i++)
 			{
-				for (int j = 0; j < 10; j++)
+				for (int j = 0; j < Rules.height; j++)
 				{
 					grid[i, j] = 0;
 				}
@@ -44,10 +44,10 @@ namespace IA_TP1
 
 		private void GeneratePoussiere(Random r)
 		{
-			if (r.NextDouble() < 0.1) 
+			if (r.NextDouble() < Rules.poussiereFrequency) 
 			{
-				int randI = r.Next(0, 10);
-				int randJ = r.Next(0, 10);
+				int randI = r.Next(0, Rules.width);
+				int randJ = r.Next(0, Rules.height);
 				if (grid[randI, randJ] == 0 || grid[randI, randJ] == 2)
 					grid[randI, randJ] += 1;
 			}
@@ -55,10 +55,10 @@ namespace IA_TP1
 
 		private void GenerateBijoux(Random r)
 		{
-			if (r.NextDouble() < 0.1)
+			if (r.NextDouble() < Rules.bijouxFrequency)
 			{
-				int randI = r.Next(0, 10);
-				int randJ = r.Next(0, 10);
+				int randI = r.Next(0, Rules.width);
+				int randJ = r.Next(0, Rules.height);
 				if (grid[randI, randJ] == 0 || grid[randI, randJ] == 1)
 					grid[randI, randJ] += 2;
 			}
