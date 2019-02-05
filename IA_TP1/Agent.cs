@@ -12,13 +12,16 @@ namespace IA_TP1
         private int[,] croyance; // L'environnement qu'il peut observer
         private int desir; // gagner des points : faire une action rentable (score > 0)
         private Queue<Action> intentions; // listes d'actions que l'agent va effectuer
-
+        private Capteur capteur;
+        private Effecteur effecteur;
         public Agent()
         {
             perf = 0;
             isAlive = true;
-            croyance = Capteur.capterEnvironement();
             setPosition(4,4);
+            effecteur = new Effecteur();
+            capteur = new Capteur();
+            croyance = capteur.capterEnvironement();
         }
         
         public void setPosition(int i, int j) {
@@ -55,10 +58,12 @@ namespace IA_TP1
 
         }
 
+
         private void observerEnvironnement()
         {
-            croyance = Capteur.capterEnvironement();
+            croyance = capteur.capterEnvironement();
         }
+
 
         private void updateState() // 2 scores différents, un pour l'aspi, un pour le manoir
         {
@@ -79,6 +84,11 @@ namespace IA_TP1
         private void act()
         {
             Action currentAction = intentions.Dequeue();
+            if(currentAction != Action.ATTENDRE)
+            {
+                perf -= 1;
+            }
+            perf += effecteur.faire(currentAction, posI, posJ);
             
         }
 

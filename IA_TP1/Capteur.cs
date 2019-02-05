@@ -8,7 +8,7 @@ namespace IA_TP1
 {
     class Capteur
     {
-        public static int[,] capterEnvironement() {
+        public int[,] capterEnvironement() {
             return Environment.getGrid();
         }
     }
