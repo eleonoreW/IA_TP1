@@ -12,9 +12,6 @@ namespace IA_TP1
 
 		static private int[,] grid; // Pieces du manoir (10 x 10)
 
-		public int agentPosI; // Position de l'agent dans la grille horizontalement
-		public int agentPosJ; // Position de l'agent dans la grille verticalement
-		public int agentScore; // Performance réelle de l'agent
 		public static Queue<Action> agentActions; // Séquence d'actions de l'agent /*Il ne faudrait pas stocker*/
 
 		public Environment()
@@ -30,16 +27,14 @@ namespace IA_TP1
 
 			alive = true;
 
-			agentPosI = 4;
-			agentPosJ = 4;
-			agentScore = 0;
 			agentActions = new Queue<Action>();
-			agentActions.Enqueue(Action.DROITE);
 		}
-        public static int[,] getGrid()
-        {
-            return grid;
-        }
+
+		public static int[,] getGrid()
+		{
+			return grid;
+		}
+
 		public void Run()
 		{
 			Random r = new Random();
@@ -48,17 +43,6 @@ namespace IA_TP1
 				// Génération de poussière et de bijoux
 				GeneratePoussiere(r);
 				GenerateBijoux(r);
-
-				// Traitement des actions de l'agent
-				lock (Program._lock)
-				{
-					if (agentActions.Count > 0)
-					{
-						Action current = agentActions.Dequeue();
-						Console.WriteLine(current);
-						ProcessAction(current);
-					}
-				}
 
 				Thread.Sleep(100);
 			}
@@ -91,52 +75,37 @@ namespace IA_TP1
 			}
 		}
 
-		private void ProcessAction(Action a)
+		public int ProcessAction(Action a, int posI, int posJ)
 		{
+			int agentScore = 0;
 			switch (a)
 			{
-				case Action.HAUT:
-					agentScore--;
-					if (agentPosJ > 0)
-						agentPosJ--;
-					break;
-				case Action.BAS:
-					agentScore--;
-					if (agentPosJ < 9)
-						agentPosJ++;
-					break;
-				case Action.GAUCHE:
-					agentScore--;
-					if (agentPosI > 0)
-						agentPosI--;
-					break;
-				case Action.DROITE:
-					agentScore--;
-					if (agentPosI < 9)
-						agentPosI++;
-					break;
 				case Action.ASPIRER:
-					agentScore--;
-					agentScore += Rules.gainAspirer(grid[agentPosI, agentPosJ]);
-					// MODIFIER L'ENVIRONNEMENT 
+					agentScore += Rules.gainAspirer(grid[posI, posJ]);
+					grid[posI, posJ] = 0;
 					break;
 				case Action.RAMASSER:
-					agentScore--;
-					agentScore += Rules.gainRamasser(grid[agentPosI, agentPosJ]);
-					// MODIFIER L'ENVIRONNEMENT 
+					agentScore += Rules.gainRamasser(grid[posI, posJ]);
+					grid[posI, posJ] = 0;
 					break;
-				case Action.ATTENDRE:
+				default:
 					break;
 			}
+			PrintEnvironment(posI, posJ);
+
+			return agentScore;
 		}
 
-		private void PrintEnvironment()
+		private void PrintEnvironment(int agentPosI, int agentPosJ)
 		{
 			for (int i = 0; i < 10; i++)
 			{
 				for (int j = 0; j < 10; j++)
 				{
-					Console.Write(grid[i, j] + " ");
+					if (i == agentPosI && j == agentPosJ)
+						Console.Write("X ");
+					else
+						Console.Write(grid[i, j] + " ");
 				}
 				Console.WriteLine();
 			}
