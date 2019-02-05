@@ -18,13 +18,14 @@ namespace IA_TP1
         {
             perf = 0;
             isAlive = true;
-            setPosition(4,4);
+            setPosition(4, 4);
             effecteur = new Effecteur();
             capteur = new Capteur();
             croyance = capteur.capterEnvironement();
         }
-        
-        public void setPosition(int i, int j) {
+
+        public void setPosition(int i, int j)
+        {
             posI = i;
             posJ = j;
         }
@@ -33,7 +34,7 @@ namespace IA_TP1
         {
             perf += Rules.gainRamasser(objet);
             removeObjectsOnActualPosition();
-            
+
         }
 
         private void removeObjectsOnActualPosition()
@@ -47,7 +48,8 @@ namespace IA_TP1
             removeObjectsOnActualPosition();
         }
 
-        public void cycle() {
+        public void cycle()
+        {
             while (isAlive)
             {
                 observerEnvironnement();
@@ -72,29 +74,60 @@ namespace IA_TP1
 
         private void chooseAction()
         {
-           /* function AgentBut([etat_env, but])
-                ActionsPossibles = actionDeclanchable(etat_env)
-                for i = 1 to taille(ActionsPossibles){
-                                if capable_atteindre(ActionsPossibles[i], but)
-                                return ActionsPossibles[i];
-            }
-            returnsan action*/
+            /* function AgentBut([etat_env, but])
+                 ActionsPossibles = actionDeclanchable(etat_env)
+                 for i = 1 to taille(ActionsPossibles){
+                                 if capable_atteindre(ActionsPossibles[i], but)
+                                 return ActionsPossibles[i];
+             }
+             returnsan action*/
         }
 
         private void act()
         {
             Action currentAction = intentions.Dequeue();
-            if(currentAction != Action.ATTENDRE)
+            switch (currentAction)
             {
-                perf -= 1;
+                case Action.HAUT:
+                    perf--;
+                    if (posJ > 0)
+                        posJ--;
+                    break;
+                case Action.BAS:
+                    perf--;
+                    if (posJ < Rules.height-1)
+                        posJ++;
+                    break;
+                case Action.GAUCHE:
+                    perf--;
+                    if (posI > 0)
+                        posI--;
+                    break;
+                case Action.DROITE:
+                    perf--;
+                    if (posI < Rules.width-1)
+                        posI++;
+                    break;
+                case Action.ASPIRER:
+                    perf += effecteur.faire(currentAction, posI, posJ) -1;
+                    croyance[posI, posJ] = 0;
+                    break;
+                case Action.RAMASSER:
+                    perf += effecteur.faire(currentAction, posI, posJ) -1;
+                    croyance[posI, posJ] = 0;
+                    break;
+                case Action.ATTENDRE:
+                default:
+                    break;
             }
-            perf += effecteur.faire(currentAction, posI, posJ);
-            
+
+
+
         }
 
         private Boolean isEnvironnementEmpty()
         {
-            for(int i = 0; i < Rules.width; i = i + 1)
+            for (int i = 0; i < Rules.width; i = i + 1)
             {
                 for (int j = 0; j < Rules.height; j = j + 1)
                 {
@@ -104,9 +137,9 @@ namespace IA_TP1
             }
             return true;
         }
-        
 
-       
+
+
     }
 
 }
