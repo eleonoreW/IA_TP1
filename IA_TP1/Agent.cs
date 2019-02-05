@@ -6,7 +6,7 @@ namespace IA_TP1
     class Agent
     {
         private int perf;
-        private Boolean isAlive;
+        private bool isAlive;
         public static int posI;
         public static int posJ;
         private int[,] croyance; // L'environnement qu'il peut observer
@@ -14,6 +14,7 @@ namespace IA_TP1
         private Queue<Action> intentions; // listes d'actions que l'agent va effectuer
         private Capteur capteur;
         private Effecteur effecteur;
+        private bool informe;
         public Agent()
         {
             perf = 0;
@@ -22,6 +23,7 @@ namespace IA_TP1
             effecteur = new Effecteur();
             capteur = new Capteur();
             croyance = capteur.capterEnvironement();
+            informe = false;
         }
 
         public void setPosition(int i, int j)
@@ -54,7 +56,10 @@ namespace IA_TP1
             {
                 observerEnvironnement();
                 updateState();
-                chooseAction();
+                if (intentions.Count > 0)
+                {
+                    chooseAction();
+                }
                 act();
             }
 
@@ -74,6 +79,18 @@ namespace IA_TP1
 
         private void chooseAction()
         {
+            if (isEnvironnementEmpty())
+            {
+                intentions.Enqueue(Action.ATTENDRE);
+            }
+            else if (informe)
+            {//Exploration informée
+
+            }
+            else
+            {//Exploration non informée
+
+            }
             /* function AgentBut([etat_env, but])
                  ActionsPossibles = actionDeclanchable(etat_env)
                  for i = 1 to taille(ActionsPossibles){
@@ -95,7 +112,7 @@ namespace IA_TP1
                     break;
                 case Action.BAS:
                     perf--;
-                    if (posJ < Rules.height-1)
+                    if (posJ < Rules.height - 1)
                         posJ++;
                     break;
                 case Action.GAUCHE:
@@ -105,15 +122,15 @@ namespace IA_TP1
                     break;
                 case Action.DROITE:
                     perf--;
-                    if (posI < Rules.width-1)
+                    if (posI < Rules.width - 1)
                         posI++;
                     break;
                 case Action.ASPIRER:
-                    perf += effecteur.faire(currentAction, posI, posJ) -1;
+                    perf += effecteur.faire(currentAction, posI, posJ) - 1;
                     croyance[posI, posJ] = 0;
                     break;
                 case Action.RAMASSER:
-                    perf += effecteur.faire(currentAction, posI, posJ) -1;
+                    perf += effecteur.faire(currentAction, posI, posJ) - 1;
                     croyance[posI, posJ] = 0;
                     break;
                 case Action.ATTENDRE:
