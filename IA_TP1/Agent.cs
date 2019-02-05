@@ -92,6 +92,18 @@ namespace IA_TP1
             
         }
 
+        private Boolean isEnvironnementEmpty()
+        {
+            for(int i = 0; i < Rules.width; i = i + 1)
+            {
+                for (int j = 0; j < Rules.height; j = j + 1)
+                {
+                    if (croyance[i, j] != 0)
+                        return false;
+                }
+            }
+            return true;
+        }
         
 
        
