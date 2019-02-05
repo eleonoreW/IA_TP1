@@ -75,7 +75,7 @@ namespace IA_TP1
 			}
 		}
 
-		public int ProcessAction(Action a, int posI, int posJ)
+		static public int ProcessAction(Action a, int posI, int posJ)
 		{
 			int agentScore = 0;
 			switch (a)
