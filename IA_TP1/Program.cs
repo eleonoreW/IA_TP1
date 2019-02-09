@@ -19,12 +19,12 @@ namespace IA_TP1
 			Agent age = new Agent();
 			new Thread(age.Run).Start();
 
-			Thread.Sleep(60000);
+			//Thread.Sleep(60000);
 
 
-			env.alive = false;
-			aff.alive = false;
-			age.alive = false;
+			//env.alive = false;
+			//aff.alive = false;
+			//age.alive = false;
 
 			Console.ReadKey();
 		}

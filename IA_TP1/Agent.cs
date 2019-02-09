@@ -78,8 +78,9 @@ namespace IA_TP1
 					Node n = new NodeUCS(null, croyance, posI, posJ, Action.ATTENDRE);
 					List<Action> actions = Exploration(n);
 
-					for (int i = actions.Count - 1; i >= 0; i--)
-						intentions.Enqueue(actions[i]);
+					if (actions != null)
+						for (int i = actions.Count - 1; i >= 0; i--)
+							intentions.Enqueue(actions[i]);
 				}
 			}
 		}
@@ -124,8 +125,6 @@ namespace IA_TP1
 						break;
 				}
 			}
-			intentions.Clear();
-
 		}
 
 
