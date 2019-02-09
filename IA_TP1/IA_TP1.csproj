@@ -49,6 +49,9 @@
     <Compile Include="Affichage.cs" />
     <Compile Include="Effecteur.cs" />
     <Compile Include="Environment.cs" />
+    <Compile Include="Node.cs" />
+    <Compile Include="NodeAStar.cs" />
+    <Compile Include="NodeUCS.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rules.cs" />

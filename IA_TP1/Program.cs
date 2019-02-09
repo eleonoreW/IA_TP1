@@ -8,23 +8,23 @@ namespace IA_TP1
 {
 	class Program
 	{
-		public static Object _lock = new Object();
-
 		static void Main(string[] args)
 		{
 			Environment env = new Environment(100);
 			new Thread(env.Run).Start();
 
-			Affichage aff = new Affichage(100);
+			Affichage aff = new Affichage(50);
 			new Thread(aff.Run).Start();
 
-			Agent a = new Agent();
+			Agent age = new Agent();
+			new Thread(age.Run).Start();
 
-			Thread.Sleep(10000);
+			Thread.Sleep(60000);
 
 
 			env.alive = false;
 			aff.alive = false;
+			age.alive = false;
 
 			Console.ReadKey();
 		}

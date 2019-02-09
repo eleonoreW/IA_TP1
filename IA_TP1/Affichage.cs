@@ -29,12 +29,12 @@ namespace IA_TP1
 
 		private void PrintEnvironment()
 		{
-			for (int i = 0; i < Rules.width; i++)
+			for (int j = 0; j < Rules.height; j++)
 			{
-				for (int j = 0; j < Rules.height; j++)
+				for (int i = 0; i < Rules.width; i++)
 				{
 					if (i == Agent.posI && j == Agent.posJ)
-						Console.Write("X ");
+						Console.Write("A ");
 					else
 						Console.Write(Environment.grid[i, j] + " ");
 				}
