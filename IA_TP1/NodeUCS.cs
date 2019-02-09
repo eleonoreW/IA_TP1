@@ -46,20 +46,25 @@ namespace IA_TP1
 			}
 
 			// Aspirer
-			if (n.NodeWithPoussiere())
+			if (n.NodeWithPoussiere(n.agentPosI, n.agentPosJ))
 			{
 				Node newNode = new NodeUCS(n, n.map, n.agentPosI, n.agentPosJ, Action.ASPIRER);
 				neighbors.Add(newNode);
 			}
 
 			// Ramasser
-			if (n.NodeWithBijou())
+			if (n.NodeWithBijou(n.agentPosI, n.agentPosJ))
 			{
 				Node newNode = new NodeUCS(n, n.map, n.agentPosI, n.agentPosJ, Action.RAMASSER);
 				neighbors.Add(newNode);
 			}
 
 			return neighbors;
+		}
+
+		override public int Eval()
+		{
+			return cost;
 		}
 	}
 }

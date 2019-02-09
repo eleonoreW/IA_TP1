@@ -26,6 +26,7 @@ namespace IA_TP1
 			//aff.alive = false;
 			//age.alive = false;
 
+
 			Console.ReadKey();
 		}
 	}

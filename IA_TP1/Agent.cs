@@ -20,6 +20,7 @@ namespace IA_TP1
 		public Agent()
 		{
 			alive = true;
+
 			perf = 0;
 			desir = 0;
 			SetPosition(4, 4);
@@ -27,7 +28,8 @@ namespace IA_TP1
 			effecteur = new Effecteur();
 			capteur = new Capteur();
 			croyance = capteur.capterEnvironement();
-			informe = false;
+
+			informe = true;
 		}
 
 		public void Run()
@@ -66,22 +68,16 @@ namespace IA_TP1
 			}
 			else
 			{
-				if (informe)
-				{
-					// Exploration informée
-					Node n = new NodeAStar(null, croyance, posI, posJ, Action.ATTENDRE);
-					//intentions = Exploration(n);
-				}
-				else
-				{
-					// Exploration non informée
-					Node n = new NodeUCS(null, croyance, posI, posJ, Action.ATTENDRE);
-					List<Action> actions = Exploration(n);
+				Node n;
+				if (informe) // Exploration informee
+					n = new NodeAStar(null, croyance, posI, posJ, Action.ATTENDRE);
+				else // Exploration non informee
+					n = new NodeUCS(null, croyance, posI, posJ, Action.ATTENDRE);
 
-					if (actions != null)
-						for (int i = actions.Count - 1; i >= 0; i--)
-							intentions.Enqueue(actions[i]);
-				}
+				List<Action> actions = Exploration(n);
+				if (actions != null)
+					for (int i = actions.Count - 1; i >= 0; i--)
+						intentions.Enqueue(actions[i]);
 			}
 		}
 
@@ -93,31 +89,33 @@ namespace IA_TP1
 				switch (currentAction)
 				{
 					case Action.HAUT:
-						perf--;
+						perf++;
 						if (posJ > 0)
 							posJ--;
 						break;
 					case Action.BAS:
-						perf--;
+						perf++;
 						if (posJ < Rules.height - 1)
 							posJ++;
 						break;
 					case Action.GAUCHE:
-						perf--;
+						perf++;
 						if (posI > 0)
 							posI--;
 						break;
 					case Action.DROITE:
-						perf--;
+						perf++;
 						if (posI < Rules.width - 1)
 							posI++;
 						break;
 					case Action.ASPIRER:
-						perf += effecteur.faire(currentAction, posI, posJ) - 1;
+						perf++;
+						perf -= effecteur.faire(currentAction, posI, posJ);
 						RemoveObjectsOnActualPosition();
 						break;
 					case Action.RAMASSER:
-						perf += effecteur.faire(currentAction, posI, posJ) - 1;
+						perf++;
+						perf -= effecteur.faire(currentAction, posI, posJ);
 						RemoveObjectsOnActualPosition();
 						break;
 					case Action.ATTENDRE:
@@ -162,12 +160,13 @@ namespace IA_TP1
 				//	Console.WriteLine();
 				//}
 				//Console.WriteLine();
-				//Console.WriteLine(n.depth + " : " + n.action + " (" + n.agentPosI + "," + n.agentPosJ + ") - " + n.cost);
+				//NodeAStar nn = (NodeAStar)n;
+				//Console.WriteLine(nn.depth + " : " + nn.action + " (" + nn.agentPosI + "," + nn.agentPosJ + ") => " + nn.cost + " + " + nn.costH + " = " + nn.Eval());
 				//Console.WriteLine("\n");
 
 
 				// Si n est solution
-				if (n.cost > desir)
+				if (n.cost < desir)
 				{
 					List<Action> actions = new List<Action>();
 					Node node = n;
@@ -184,12 +183,12 @@ namespace IA_TP1
 					if (informe)
 					{
 						frontiere.AddRange(NodeAStar.AStarSearch(n));
-						frontiere.Sort((x, y) => y.cost.CompareTo(x.cost));
+						frontiere.Sort((x, y) => x.Eval().CompareTo(y.Eval()));
 					}
 					else
 					{
 						frontiere.AddRange(NodeUCS.UCSearch(n));
-						frontiere.Sort((x, y) => y.cost.CompareTo(x.cost));
+						frontiere.Sort((x, y) => x.Eval().CompareTo(y.Eval()));
 					}
 				else
 					return null;

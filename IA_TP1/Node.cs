@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IA_TP1
 {
-	class Node
+	abstract class Node
 	{
 		public Node parent;
 		public int[,] map;
@@ -32,32 +32,34 @@ namespace IA_TP1
 			else
 			{
 				depth = parent.depth + 1;
-				cost = parent.cost - 1;
+				cost = parent.cost + 1;
 				if (action == Action.ASPIRER)
 				{
-					cost += Rules.gainAspirer(map[agentPosI, agentPosJ]);
-					
+					cost -= Rules.gainAspirer(map[agentPosI, agentPosJ]);
+
 					// On enlève la poussière et le bijou de la carte
 					map[agentPosI, agentPosJ] = 0;
 				}
 				else if (action == Action.RAMASSER)
 				{
-					cost += Rules.gainRamasser(map[agentPosI, agentPosJ]);
-					
+					cost -= Rules.gainRamasser(map[agentPosI, agentPosJ]);
+
 					// On enlève la poussière et le bijou de la carte
 					map[agentPosI, agentPosJ] = 0;
 				}
 			}
 		}
 
-		public bool NodeWithPoussiere()
+		public bool NodeWithPoussiere(int i, int j)
 		{
-			return (map[agentPosI, agentPosJ] == 1 || map[agentPosI, agentPosJ] == 3);
+			return (map[i, j] == 1 || map[i, j] == 3);
 		}
 
-		public bool NodeWithBijou()
+		public bool NodeWithBijou(int i, int j)
 		{
-			return (map[agentPosI, agentPosJ] == 2 || map[agentPosI, agentPosJ] == 3);
+			return (map[i, j] == 2 || map[i, j] == 3);
 		}
+
+		public abstract int Eval();
 	}
 }
