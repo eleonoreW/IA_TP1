@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace IA_TP1
+﻿namespace IA_TP1
 {
     public class Rules
     {
@@ -12,8 +6,9 @@ namespace IA_TP1
 		public static readonly int height = 10;
 		public static readonly float poussiereFrequency = 0.1f;
 		public static readonly float bijouxFrequency = 0.1f;
+		public static readonly int maxSearchDepth = 7;
 
-		public static int gainRamasser(int objet)
+		public static int GainRamasser(int objet)
         {
             if (objet == 1)
                 return -5;
@@ -23,7 +18,8 @@ namespace IA_TP1
                 return 5;
             return 0;
         }
-        public static int gainAspirer(int objet)
+
+        public static int GainAspirer(int objet)
         {
             if (objet == 1)
                 return +10;
@@ -34,8 +30,8 @@ namespace IA_TP1
             return 0;
         }
 
-        /** Objects on map :
-        [0] - nothing
+        /** Grille / Manoir :
+        [0] - vide
         [1] - poussière
         [2] - bijoux
         [3] - poussière et bijoux */

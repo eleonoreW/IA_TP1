@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace IA_TP1
 {
 	class NodeUCS : Node
 	{
-		public NodeUCS(Node p, int[,] m, int i, int j, Action a) : base(p, m, i, j, a)
-		{
-
-		}
+		public NodeUCS(Node p, int[,] m, int i, int j, Action a) : base(p, m, i, j, a) { }
 
 		public static List<Node> UCSearch(Node n)
 		{
+			// Récupérer tous les neouds réalisables a partir de l'etat actuel
 			List<Node> neighbors = new List<Node>();
 
 			// Haut

@@ -1,35 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 
+
 namespace IA_TP1
 {
 	class Agent
 	{
 		public bool alive; // Contrôle de l'execution du thread
 
-		private int perf;
-		private int desir; // gagner des points : faire une action rentable (score > 0)
+		private int perf; // Performance de l'agent
+		private int desir; // Gagner des points : faire une action rentable
 		public static int posI;
 		public static int posJ;
 		private int[,] croyance; // L'environnement qu'il peut observer
-		private Queue<Action> intentions; // listes d'actions que l'agent va effectuer
+		private Queue<Action> intentions; // Listes d'actions que l'agent va effectuer
 		private Capteur capteur;
 		private Effecteur effecteur;
-		private bool informe;
+		private bool informe; // Utilise l'algorithme de recherche informe ?
 
-		public Agent()
+		public Agent(bool informe_)
 		{
 			alive = true;
 
+			// Initialisation
 			perf = 0;
 			desir = 0;
-			SetPosition(4, 4);
 			intentions = new Queue<Action>();
 			effecteur = new Effecteur();
 			capteur = new Capteur();
-			croyance = capteur.capterEnvironement();
 
-			informe = true;
+			// On positionne l'agent au centre du manoir
+			posI = 4; 
+			posJ = 4;
+
+			informe = informe_;
 		}
 
 		public void Run()
@@ -41,12 +45,6 @@ namespace IA_TP1
 				if (intentions.Count > 0)
 					Act();
 			}
-		}
-
-		public void SetPosition(int i, int j)
-		{
-			posI = i;
-			posJ = j;
 		}
 
 		private void RemoveObjectsOnActualPosition()
@@ -73,7 +71,8 @@ namespace IA_TP1
 					n = new NodeAStar(null, croyance, posI, posJ, Action.ATTENDRE);
 				else // Exploration non informee
 					n = new NodeUCS(null, croyance, posI, posJ, Action.ATTENDRE);
-
+				
+				// On recupere la meilleure liste d'action et on la definit comme nos intensions
 				List<Action> actions = Exploration(n);
 				if (actions != null)
 					for (int i = actions.Count - 1; i >= 0; i--)
@@ -138,6 +137,7 @@ namespace IA_TP1
 
 				Node n = frontiere[0];
 				frontiere.RemoveAt(0);
+				// On ne reexplore pas les noeuds deja visites
 				while (visited.Contains(n))
 				{
 					n = frontiere[0];
@@ -147,48 +147,35 @@ namespace IA_TP1
 				visited.Add(n);
 
 
-				// AFFICHAGE DEBUG
-				//for (int j = 0; j < n.map.GetLength(1); j++)
-				//{
-				//	for (int i = 0; i < n.map.GetLength(0); i++)
-				//	{
-				//		if (n.agentPosI == i && n.agentPosJ == j)
-				//			Console.Write("A ");
-				//		else
-				//			Console.Write(n.map[i, j] + " ");
-				//	}
-				//	Console.WriteLine();
-				//}
-				//Console.WriteLine();
-				//NodeAStar nn = (NodeAStar)n;
-				//Console.WriteLine(nn.depth + " : " + nn.action + " (" + nn.agentPosI + "," + nn.agentPosJ + ") => " + nn.cost + " + " + nn.costH + " = " + nn.Eval());
-				//Console.WriteLine("\n");
-
-
 				// Si n est solution
 				if (n.cost < desir)
 				{
+					// On recupere la liste d'action en remontant la brache de l'arbre de decision
 					List<Action> actions = new List<Action>();
-					Node node = n;
-					while (node != null)
+					Node current = n;
+					while (current != null)
 					{
-						actions.Add(node.action);
-						node = node.parent;
+						actions.Add(current.action);
+						current = current.parent;
 					}
 					return actions;
 				}
 
 				// Expansion
-				if (n.depth < 7)
+				if (n.depth < Rules.maxSearchDepth)
 					if (informe)
 					{
+						// Exploration AStar
 						frontiere.AddRange(NodeAStar.AStarSearch(n));
-						frontiere.Sort((x, y) => x.Eval().CompareTo(y.Eval()));
+						// Tri des noeuds par cout croissant
+						frontiere.Sort((x, y) => x.Eval().CompareTo(y.Eval())); 
 					}
 					else
 					{
+						// Exploration Uniform Cost Search (UCS)
 						frontiere.AddRange(NodeUCS.UCSearch(n));
-						frontiere.Sort((x, y) => x.Eval().CompareTo(y.Eval()));
+						// Tri des noeuds par cout croissant
+						frontiere.Sort((x, y) => x.Eval().CompareTo(y.Eval())); 
 					}
 				else
 					return null;
@@ -199,13 +186,9 @@ namespace IA_TP1
 		private bool IsEnvironnementEmpty()
 		{
 			for (int i = 0; i < Rules.width; i = i + 1)
-			{
 				for (int j = 0; j < Rules.height; j = j + 1)
-				{
 					if (croyance[i, j] != 0)
 						return false;
-				}
-			}
 			return true;
 		}
 

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
+
 
 namespace IA_TP1
 {
@@ -22,7 +20,6 @@ namespace IA_TP1
 			while (alive)
 			{
 				PrintEnvironment();
-
 				Thread.Sleep(frequency);
 			}
 		}
@@ -32,12 +29,10 @@ namespace IA_TP1
 			for (int j = 0; j < Rules.height; j++)
 			{
 				for (int i = 0; i < Rules.width; i++)
-				{
 					if (i == Agent.posI && j == Agent.posJ)
 						Console.Write("A ");
 					else
 						Console.Write(Environment.grid[i, j] + " ");
-				}
 				Console.WriteLine();
 			}
 			Console.WriteLine("\n");

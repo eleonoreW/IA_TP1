@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace IA_TP1
 {
 	class NodeAStar : Node
 	{
-		public int costH;
+		public int costH; // Cout associe a l'heuristique
 
 		public NodeAStar(Node p, int[,] m, int i, int j, Action a) : base(p, m, i, j, a)
 		{
@@ -17,6 +15,7 @@ namespace IA_TP1
 
 		public static List<Node> AStarSearch(Node n)
 		{
+			// Récupérer tous les neouds réalisables a partir de l'etat actuel
 			List<Node> neighbors = new List<Node>();
 
 			// Haut
@@ -72,9 +71,7 @@ namespace IA_TP1
 
 			// Chercher la case avec poussiere ou bijou dans des cases de plus en plus éloignées
 			for (int k = 1; k <= 10; k++)
-			{
 				for (int j = -1; j <= 1; j++)
-				{
 					for (int i = -1; i <= 1; i++)
 					{
 						int newI = agentPosI + i;
@@ -82,15 +79,11 @@ namespace IA_TP1
 
 						// Si on est dans les limites du tableau
 						if (newI >= 0 && newI < Rules.width && newJ >= 0 && newJ < Rules.height)
-						{
-							// Si on en trouve une, on retourne la distance de manhattan entre la position de l'agent et cette case
+							// Si on en trouve une, on retourne la distance de Manhattan entre la position de l'agent et cette case
 							if (NodeWithPoussiere(newI, newJ) || NodeWithBijou(newI, newJ))
 								return Dist(agentPosI, agentPosJ, newI, newJ);
-						}
 
 					}
-				}
-			}
 
 			// On en a pas trouve, on retourne l'infini
 			return 100000;
@@ -98,6 +91,7 @@ namespace IA_TP1
 
 		private int Dist(int x1, int y1, int x2, int y2)
 		{
+			// Distance de Manhattan entre deux points
 			return (Math.Abs(x1 - x2) + Math.Abs(y1 - y2));
 		}
 

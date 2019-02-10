@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace IA_TP1
+﻿namespace IA_TP1
 {
 	abstract class Node
 	{
@@ -24,25 +18,27 @@ namespace IA_TP1
 			agentPosJ = agentPosJ_;
 			action = action_;
 
+			// Si c'est un noeud racine
 			if (parent == null)
 			{
 				cost = 0;
 				depth = 0;
 			}
+			// Sinon
 			else
 			{
 				depth = parent.depth + 1;
 				cost = parent.cost + 1;
 				if (action == Action.ASPIRER)
 				{
-					cost -= Rules.gainAspirer(map[agentPosI, agentPosJ]);
+					cost -= Rules.GainAspirer(map[agentPosI, agentPosJ]);
 
 					// On enlève la poussière et le bijou de la carte
 					map[agentPosI, agentPosJ] = 0;
 				}
 				else if (action == Action.RAMASSER)
 				{
-					cost -= Rules.gainRamasser(map[agentPosI, agentPosJ]);
+					cost -= Rules.GainRamasser(map[agentPosI, agentPosJ]);
 
 					// On enlève la poussière et le bijou de la carte
 					map[agentPosI, agentPosJ] = 0;
@@ -60,6 +56,6 @@ namespace IA_TP1
 			return (map[i, j] == 2 || map[i, j] == 3);
 		}
 
-		public abstract int Eval();
+		public abstract int Eval(); // Valeur de comparaison entre deux noeuds
 	}
 }

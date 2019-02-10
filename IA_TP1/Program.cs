@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
+
 
 namespace IA_TP1
 {
@@ -10,17 +8,20 @@ namespace IA_TP1
 	{
 		static void Main(string[] args)
 		{
+			// Environnement
 			Environment env = new Environment(100);
 			new Thread(env.Run).Start();
 
+			// Affichage
 			Affichage aff = new Affichage(50);
 			new Thread(aff.Run).Start();
 
-			Agent age = new Agent();
+			// Agent
+			Agent age = new Agent(true);
 			new Thread(age.Run).Start();
 
-			//Thread.Sleep(60000);
 
+			//Thread.Sleep(60000);
 
 			//env.alive = false;
 			//aff.alive = false;
