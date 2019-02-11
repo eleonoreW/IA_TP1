@@ -88,33 +88,33 @@ namespace IA_TP1
 				switch (currentAction)
 				{
 					case Action.HAUT:
-						perf++;
+						perf--;
 						if (posJ > 0)
 							posJ--;
 						break;
 					case Action.BAS:
-						perf++;
+						perf--;
 						if (posJ < Rules.height - 1)
 							posJ++;
 						break;
 					case Action.GAUCHE:
-						perf++;
+						perf--;
 						if (posI > 0)
 							posI--;
 						break;
 					case Action.DROITE:
-						perf++;
+						perf--;
 						if (posI < Rules.width - 1)
 							posI++;
 						break;
 					case Action.ASPIRER:
-						perf++;
-						perf -= effecteur.faire(currentAction, posI, posJ);
+						perf--;
+						perf += effecteur.faire(currentAction, posI, posJ);
 						RemoveObjectsOnActualPosition();
 						break;
 					case Action.RAMASSER:
-						perf++;
-						perf -= effecteur.faire(currentAction, posI, posJ);
+						perf--;
+						perf += effecteur.faire(currentAction, posI, posJ);
 						RemoveObjectsOnActualPosition();
 						break;
 					case Action.ATTENDRE:
