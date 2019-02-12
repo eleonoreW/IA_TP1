@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Threading;
 
 namespace IA_TP1
 {
@@ -8,11 +8,11 @@ namespace IA_TP1
 	{
 		public bool alive; // Contrôle de l'execution du thread
 
-		private int perf; // Performance de l'agent
+		public static int perf; // Performance de l'agent
 		private int desir; // Gagner des points : faire une action rentable
 		public static int posI;
 		public static int posJ;
-		private int[,] croyance; // L'environnement qu'il peut observer
+		public static int[,] croyance; // L'environnement qu'il peut observer
 		private Queue<Action> intentions; // Listes d'actions que l'agent va effectuer
 		private Capteur capteur;
 		private Effecteur effecteur;
@@ -44,7 +44,7 @@ namespace IA_TP1
 				ChooseAction();
 				if (intentions.Count > 0)
 					Act();
-			}
+            }
 		}
 
 		private void RemoveObjectsOnActualPosition()
@@ -56,6 +56,7 @@ namespace IA_TP1
 		private void ObserverEnvironnement()
 		{
 			croyance = capteur.capterEnvironement();
+            perf = capteur.capterPerformance();
 		}
 
 		private void ChooseAction()
@@ -85,43 +86,8 @@ namespace IA_TP1
 			while (intentions.Count > 0)
 			{
 				Action currentAction = intentions.Dequeue();
-				switch (currentAction)
-				{
-					case Action.HAUT:
-						perf--;
-						if (posJ > 0)
-							posJ--;
-						break;
-					case Action.BAS:
-						perf--;
-						if (posJ < Rules.height - 1)
-							posJ++;
-						break;
-					case Action.GAUCHE:
-						perf--;
-						if (posI > 0)
-							posI--;
-						break;
-					case Action.DROITE:
-						perf--;
-						if (posI < Rules.width - 1)
-							posI++;
-						break;
-					case Action.ASPIRER:
-						perf--;
-						perf += effecteur.faire(currentAction, posI, posJ);
-						RemoveObjectsOnActualPosition();
-						break;
-					case Action.RAMASSER:
-						perf--;
-						perf += effecteur.faire(currentAction, posI, posJ);
-						RemoveObjectsOnActualPosition();
-						break;
-					case Action.ATTENDRE:
-					default:
-						break;
-				}
-			}
+                effecteur.faire(currentAction, posI, posJ);
+            }
 		}
 
 
@@ -150,7 +116,7 @@ namespace IA_TP1
 				// Si n est solution
 				if (n.cost < desir)
 				{
-					// On recupere la liste d'action en remontant la brache de l'arbre de decision
+					// On recupere la liste d'action en remontant la branche de l'arbre de decision
 					List<Action> actions = new List<Action>();
 					Node current = n;
 					while (current != null)

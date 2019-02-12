@@ -16,7 +16,7 @@ namespace IA_TP1
 		public bool alive; // Contrôle de l'execution du thread
 		private readonly int frequency; // Taux de rafraichissement du thread (en ms)
 		public static int[,] grid; // Pieces du manoir (10 x 10)
-
+        public static int performanceAgent;
 		public Environment(int freq)
 		{
 			// Initialisation de l'environnement vide
@@ -27,7 +27,9 @@ namespace IA_TP1
 
 			alive = true;
 			frequency = freq;
-		}
+            performanceAgent = 0;
+
+        }
 
 
 		public void Run()
@@ -66,26 +68,36 @@ namespace IA_TP1
 			}
 		}
 
-		static public int ProcessAction(Action a, int posI, int posJ)
+		static public void ProcessAction(Action currentAction, int posI, int posJ)
 		{
-			int agentScore = 0;
-
-			// Agir sur l'environnement et donner un score selon l'action
-			switch (a)
-			{
-				case Action.ASPIRER:
-					agentScore += Rules.GainAspirer(grid[posI, posJ]);
-					grid[posI, posJ] = 0;
-					break;
-				case Action.RAMASSER:
-					agentScore += Rules.GainRamasser(grid[posI, posJ]);
-					grid[posI, posJ] = 0;
-					break;
-				default:
-					break;
-			}
-
-			return agentScore;
+			// Changer le score de performance de l'agent selon l'action effectuée par l'agent
+            switch (currentAction)
+            {
+                case Action.HAUT:
+                    performanceAgent--;
+                    break;
+                case Action.BAS:
+                    performanceAgent--;
+                    break;
+                case Action.GAUCHE:
+                    performanceAgent--;
+                    break;
+                case Action.DROITE:
+                    performanceAgent--;
+                    break;
+                case Action.ASPIRER:
+                    performanceAgent--;
+                    performanceAgent += Rules.GainAspirer(grid[posI, posJ]);
+                    grid[posI, posJ] = 0;
+                    break;
+                case Action.RAMASSER:
+                    performanceAgent--;
+                    performanceAgent += Rules.GainRamasser(grid[posI, posJ]);
+                    grid[posI, posJ] = 0;
+                    break;
+                default:
+                    break;
+            }
 		}
 	}
 }

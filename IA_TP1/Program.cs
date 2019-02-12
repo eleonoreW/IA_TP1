@@ -9,11 +9,11 @@ namespace IA_TP1
 		static void Main(string[] args)
 		{
 			// Environnement
-			Environment env = new Environment(100);
+			Environment env = new Environment(1000);
 			new Thread(env.Run).Start();
 
 			// Affichage
-			Affichage aff = new Affichage(50);
+			Affichage aff = new Affichage(800);
 			new Thread(aff.Run).Start();
 
 			// Agent

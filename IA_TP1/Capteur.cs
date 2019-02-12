@@ -5,5 +5,9 @@
         public int[,] capterEnvironement() {
 			return Environment.grid.Clone() as int[,];
 		}
+        public int capterPerformance()
+        {
+            return Environment.performanceAgent;
+        }
     }
 }

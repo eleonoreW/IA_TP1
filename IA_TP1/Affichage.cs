@@ -36,6 +36,9 @@ namespace IA_TP1
 				Console.WriteLine();
 			}
 			Console.WriteLine("\n");
-		}
+            
+            Console.WriteLine("Performance Environnement  : " +Agent.perf +"\n");
+            Console.WriteLine("Performance Agent          : " +Environment.performanceAgent+"\n");
+        }
 	}
 }
