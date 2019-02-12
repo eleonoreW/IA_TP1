@@ -17,8 +17,7 @@ namespace IA_TP1
 
 		public void Run()
 		{
-			while (alive)
-			{
+			while (alive) {
 				PrintEnvironment();
 				Thread.Sleep(frequency);
 			}
@@ -26,19 +25,21 @@ namespace IA_TP1
 
 		private void PrintEnvironment()
 		{
-			for (int j = 0; j < Rules.height; j++)
-			{
-				for (int i = 0; i < Rules.width; i++)
-					if (i == Agent.posI && j == Agent.posJ)
+			for (int j = 0; j < Rules.height; j++) {
+				for (int i = 0; i < Rules.width; i++) {
+					if (i == Agent.posI && j == Agent.posJ) {
 						Console.Write("A ");
-					else
+					} else {
 						Console.Write(Environment.grid[i, j] + " ");
+					}
+				}
+
 				Console.WriteLine();
 			}
-			Console.WriteLine("\n");
-            
-            Console.WriteLine("Performance Environnement  : " +Agent.perf +"\n");
-            Console.WriteLine("Performance Agent          : " +Environment.performanceAgent+"\n");
-        }
+			Console.WriteLine();
+
+			Console.WriteLine("Performance Environnement  : " + Agent.perf);
+			Console.WriteLine("Performance Agent          : " + Environment.performanceAgent + "\n\n");
+		}
 	}
 }

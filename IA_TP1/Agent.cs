@@ -30,7 +30,7 @@ namespace IA_TP1
 			capteur = new Capteur();
 
 			// On positionne l'agent au centre du manoir
-			posI = 4; 
+			posI = 4;
 			posJ = 4;
 
 			informe = informe_;
@@ -38,13 +38,13 @@ namespace IA_TP1
 
 		public void Run()
 		{
-			while (alive)
-			{
+			while (alive) {
 				ObserverEnvironnement();
 				ChooseAction();
-				if (intentions.Count > 0)
+				if (intentions.Count > 0) {
 					Act();
-            }
+				}
+			}
 		}
 
 		private void RemoveObjectsOnActualPosition()
@@ -55,39 +55,40 @@ namespace IA_TP1
 
 		private void ObserverEnvironnement()
 		{
-			croyance = capteur.capterEnvironement();
-            perf = capteur.capterPerformance();
+			croyance = capteur.CapterEnvironement();
+			perf = capteur.CapterPerformance();
 		}
 
 		private void ChooseAction()
 		{
-			if (IsEnvironnementEmpty())
-			{
+			if (IsEnvironnementEmpty()) {
 				intentions.Enqueue(Action.ATTENDRE);
-			}
-			else
-			{
+			} else {
 				Node n;
 				if (informe) // Exploration informee
+{
 					n = new NodeAStar(null, croyance, posI, posJ, Action.ATTENDRE);
-				else // Exploration non informee
+				} else // Exploration non informee
+  {
 					n = new NodeUCS(null, croyance, posI, posJ, Action.ATTENDRE);
-				
+				}
+
 				// On recupere la meilleure liste d'action et on la definit comme nos intensions
 				List<Action> actions = Exploration(n);
-				if (actions != null)
-					for (int i = actions.Count - 1; i >= 0; i--)
+				if (actions != null) {
+					for (int i = actions.Count - 1; i >= 0; i--) {
 						intentions.Enqueue(actions[i]);
+					}
+				}
 			}
 		}
 
 		private void Act()
 		{
-			while (intentions.Count > 0)
-			{
+			while (intentions.Count > 0) {
 				Action currentAction = intentions.Dequeue();
-                effecteur.faire(currentAction, posI, posJ);
-            }
+				effecteur.faire(currentAction, posI, posJ);
+			}
 		}
 
 
@@ -96,16 +97,15 @@ namespace IA_TP1
 			List<Node> visited = new List<Node>();
 			List<Node> frontiere = new List<Node> { root };
 
-			while (true)
-			{
-				if (frontiere.Count == 0)
+			while (true) {
+				if (frontiere.Count == 0) {
 					return null;
+				}
 
 				Node n = frontiere[0];
 				frontiere.RemoveAt(0);
 				// On ne reexplore pas les noeuds deja visites
-				while (visited.Contains(n))
-				{
+				while (visited.Contains(n)) {
 					n = frontiere[0];
 					frontiere.RemoveAt(0);
 				}
@@ -114,13 +114,11 @@ namespace IA_TP1
 
 
 				// Si n est solution
-				if (n.cost < desir)
-				{
+				if (n.cost < desir) {
 					// On recupere la liste d'action en remontant la branche de l'arbre de decision
 					List<Action> actions = new List<Action>();
 					Node current = n;
-					while (current != null)
-					{
+					while (current != null) {
 						actions.Add(current.action);
 						current = current.parent;
 					}
@@ -128,33 +126,35 @@ namespace IA_TP1
 				}
 
 				// Expansion
-				if (n.depth < Rules.maxSearchDepth)
-					if (informe)
-					{
+				if (n.depth < Rules.maxSearchDepth) {
+					if (informe) {
 						// Exploration AStar
 						frontiere.AddRange(NodeAStar.AStarSearch(n));
 						// Tri des noeuds par cout croissant
-						frontiere.Sort((x, y) => x.Eval().CompareTo(y.Eval())); 
-					}
-					else
-					{
+						frontiere.Sort((x, y) => x.Eval().CompareTo(y.Eval()));
+					} else {
 						// Exploration Uniform Cost Search (UCS)
 						frontiere.AddRange(NodeUCS.UCSearch(n));
 						// Tri des noeuds par cout croissant
-						frontiere.Sort((x, y) => x.Eval().CompareTo(y.Eval())); 
+						frontiere.Sort((x, y) => x.Eval().CompareTo(y.Eval()));
 					}
-				else
+				} else {
 					return null;
+				}
 			}
 		}
 
 
 		private bool IsEnvironnementEmpty()
 		{
-			for (int i = 0; i < Rules.width; i = i + 1)
-				for (int j = 0; j < Rules.height; j = j + 1)
-					if (croyance[i, j] != 0)
+			for (int i = 0; i < Rules.width; i = i + 1) {
+				for (int j = 0; j < Rules.height; j = j + 1) {
+					if (croyance[i, j] != 0) {
 						return false;
+					}
+				}
+			}
+
 			return true;
 		}
 

@@ -19,25 +19,20 @@
 			action = action_;
 
 			// Si c'est un noeud racine
-			if (parent == null)
-			{
+			if (parent == null) {
 				cost = 0;
 				depth = 0;
 			}
 			// Sinon
-			else
-			{
+			else {
 				depth = parent.depth + 1;
 				cost = parent.cost + 1;
-				if (action == Action.ASPIRER)
-				{
+				if (action == Action.ASPIRER) {
 					cost -= Rules.GainAspirer(map[agentPosI, agentPosJ]);
 
 					// On enlève la poussière et le bijou de la carte
 					map[agentPosI, agentPosJ] = 0;
-				}
-				else if (action == Action.RAMASSER)
-				{
+				} else if (action == Action.RAMASSER) {
 					cost -= Rules.GainRamasser(map[agentPosI, agentPosJ]);
 
 					// On enlève la poussière et le bijou de la carte

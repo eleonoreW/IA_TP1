@@ -17,7 +17,7 @@ namespace IA_TP1
 			new Thread(aff.Run).Start();
 
 			// Agent
-			Agent age = new Agent(true);
+			Agent age = new Agent(false);
 			new Thread(age.Run).Start();
 
 
